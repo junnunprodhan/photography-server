@@ -61,7 +61,14 @@ try{
     })
 
 
-    
+    app.get('/review/:id',async(req,res)=>{
+        const id= req.params.id;
+        const query = {serviceId:id}
+        const sort={date:-1}
+        const cursor = reviewsCollection.find(query)
+        const result = await cursor.sort(sort).toArray()
+        res.send(result)
+    })
 
 
 }
