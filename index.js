@@ -87,6 +87,31 @@ try{
         res.send(result)
     });
 
+// update
+
+app.get('/update/:id', async(req, res)=>{
+    const id =req.params.id;
+    const serQuery={_id:ObjectId(id)}
+    const review= await reviewsCollection.findOne(serQuery)
+    res.send(review)
+})
+
+app.put('/update/:id', async(req, res)=>{
+    const id =req.params.id;
+    const filter={_id:ObjectId(id)}
+    const reviews=req.body;
+    const option ={upsert:true}
+    const updateReview={
+        $set:{
+            date:reviews.date,
+            review:reviews.review,
+            rating:reviews.rating
+        }
+    }
+    const result= await reviewsCollection.updateOne(filter, updateReview, option)
+    res.send(result)
+})
+
 
 }
 finally{
