@@ -70,6 +70,23 @@ try{
         res.send(result)
     })
 
+    app.get('/myreview/:id',async(req,res)=>{
+        const id= req.params.id;
+        const query = {email:id}
+        const sort={date:-1}
+        const cursor = reviewsCollection.find(query)
+        const result = await cursor.sort(sort).toArray()
+        res.send(result)
+    });
+
+
+    app.delete('/myreview/:id',async(req,res)=>{
+        const id =req.params.id;
+        const query ={_id:ObjectId(id)}
+        const result =await reviewsCollection.deleteOne(query)
+        res.send(result)
+    });
+
 
 }
 finally{
